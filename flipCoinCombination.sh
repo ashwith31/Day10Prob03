@@ -57,3 +57,56 @@ do
 p1=$( echo ${Doublet[$key]}  $a | awk '{ print $1/$2*100 }' )
 echo "Percentage of $key win is $p1%"
 done
+echo " "
+echo "**************Triplet***********"
+hhh=0
+hht=0
+hth=0
+htt=0
+thh=0
+tht=0
+tth=0
+ttt=0
+for((i=0;i<$a;i++))
+do
+flip1=$(( RANDOM%2 ))
+flip2=$(( RANDOM%2 ))
+flip3=$(( RANDOM%2 ))
+if [ $flip1 -eq 0 -a $flip2 -eq 0 -a $flip3 -eq 0 ]
+then
+(( hhh++ ))
+elif [ $flip1 -eq 0 -a $flip2 -eq 0 -a $flip3 -eq 1 ]
+then
+(( hht++ ))
+elif [ $flip1 -eq 0 -a $flip2 -eq 1 -a $flip3 -eq 0 ]
+then
+(( hth++ ))
+elif [ $flip1 -eq 0 -a $flip2 -eq 1 -a $flip3 -eq 1 ]
+then
+(( htt++ ))
+elif [ $flip1 -eq 1 -a $flip2 -eq 0 -a $flip3 -eq 0 ]
+then
+(( thh++ ))
+elif [ $flip1 -eq 1 -a $flip2 -eq 0 -a $flip3 -eq 1 ]
+then
+(( tht++ ))
+elif [ $flip1 -eq 1 -a $flip2 -eq 1 -a $flip3 -eq 0 ]
+then
+(( tth++ ))
+else
+(( ttt++ ))
+fi
+done
+Triplet['HHH']=$hhh
+Triplet['HHT']=$hht
+Triplet['HTH']=$hth
+Triplet['HTT']=$htt
+Triplet['THH']=$thh
+Triplet['THT']=$tht
+Triplet['TTH']=$tth
+Triplet['TTT']=$ttt
+for key in ${!Triplet[*]}
+do
+p1=$( echo ${Triplet[$key]}  $a | awk '{ print $1/$2*100 }' )
+echo "Percentage of $key win is $p1%"
+done
