@@ -2,6 +2,9 @@
 declare -A Singlet
 declare -A Doublet
 declare -A Triplet
+declare -A Percentage
+declare -a P
+p=0
 read -p "Enter the number of times you want to flip the coin:" a
 echo "H==Head"
 echo "T==Tail"
@@ -23,6 +26,7 @@ Singlet['T']=$t
 for key in ${!Singlet[*]}
 do
 p1=$( echo ${Singlet[$key]}  $a | awk '{ print $1/$2*100 }' )
+Percentage[$key]=$p1
 echo "Percentage of $key win is $p1%"
 done
 echo " "
@@ -55,6 +59,7 @@ Doublet['TT']=$tt
 for key in ${!Doublet[*]}
 do
 p1=$( echo ${Doublet[$key]}  $a | awk '{ print $1/$2*100 }' )
+Percentage[$key]=$p1
 echo "Percentage of $key win is $p1%"
 done
 echo " "
@@ -108,5 +113,34 @@ Triplet['TTT']=$ttt
 for key in ${!Triplet[*]}
 do
 p1=$( echo ${Triplet[$key]}  $a | awk '{ print $1/$2*100 }' )
+Percentage[$key]=$p1
 echo "Percentage of $key win is $p1%"
+done
+echo " "
+echo "After Sorting all the combinations with percentages:"
+for key in ${!Percentage[*]}
+do
+P[((p++))]=${Percentage[$key]}
+done
+m=0
+for ((i=0;i<$p;i++))
+do
+g=$((p-1))
+for ((j=1;j<=$g;j++))
+do
+if [ ${P[j-1]} -gt ${P[j]} ]
+then
+	m=${P[j]}
+	P[((j))]=${P[j-1]}
+	P[((j-1))]=$m
+fi
+done
+done
+s=${P[-1]}
+for key in ${!Percentage[*]}
+do
+if [ ${Percentage[$key]} -eq $s ]
+then
+echo "$key has won with maximum percentage of $s%"
+fi
 done
